@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shared.Maybe
+namespace Maybe
 {
     //Source from: https://www.pluralsight.com/tech-blog/maybe
     public struct Maybe<T>
@@ -13,9 +13,9 @@ namespace Shared.Maybe
 
         public static implicit operator Maybe<T>(T value) => Some(value);
 
-        public static Maybe<T> Some(T value) => value == null
-                ? throw new ArgumentNullException($"Cannot add a null value for a reference type like {typeof(T).Name}")
-                : new Maybe<T>(new[] { value });
+        public static Maybe<T> Some(T value) => value != null
+                ? new Maybe<T>(new[] { value })
+                : throw new ArgumentNullException($"Cannot add a null value for a reference type like {typeof(T).Name}");
 
         public static Maybe<T> None => new Maybe<T>(new T[0]);
 
@@ -29,9 +29,9 @@ namespace Shared.Maybe
 
         private Maybe(IEnumerable<T> values) => this.values = values;
 
-        public T ValueOrDefault(T @default) => !HasValue
-                ? @default
-                : values.Single();
+        public T ValueOrDefault(T @default) => HasValue
+                ? values.Single()
+                : @default;
 
         public T ValueOrThrow(Exception ex) => HasValue
                 ? Value
@@ -64,9 +64,7 @@ namespace Shared.Maybe
         public Maybe<T> IfSome(Action<T> some)
         {
             if (HasValue)
-            {
                 some(Value);
-            }
 
             return this;
         }

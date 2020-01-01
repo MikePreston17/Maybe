@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Maybe;
 
 namespace Shared.Maybe
 {
@@ -8,18 +9,18 @@ namespace Shared.Maybe
     {
         public static Maybe<T> ToMaybe<T>(this T value) where T : class
             => value != null
-                ? Maybe.Some(value)
+                ? global::Maybe.Maybe.Some(value)
                 : Maybe<T>.None;
 
         public static Maybe<T> ToMaybe<T>(this T? nullable) where T : struct
             => nullable.HasValue
-                ? Maybe.Some(nullable.Value)
+                ? global::Maybe.Maybe.Some(nullable.Value)
                 : Maybe<T>.None;
 
         public static Maybe<string> NoneIfEmpty(this string text)
             => string.IsNullOrEmpty(text)
                 ? Maybe<string>.None
-                : Maybe.Some(text);
+                : global::Maybe.Maybe.Some(text);
 
         public static Maybe<T> FirstOrNone<T>(this IEnumerable<T> self) where T : class
             => self.FirstOrDefault()

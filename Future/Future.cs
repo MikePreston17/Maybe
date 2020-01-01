@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace Futures
 {
     /// <summary>
     /// Source: https://mikhail.io/2018/07/monads-explained-in-csharp-again/
@@ -13,6 +13,7 @@ namespace Shared
 
         public Future(T instance) => currentTask = Task.FromResult(instance);
 
+        
         private Future(Task<T> nextTask) => currentTask = nextTask;
 
         public Future<U> Bind<U>(Func<T, Future<U>> func)
