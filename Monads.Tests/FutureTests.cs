@@ -1,31 +1,22 @@
 using System;
 using System.Threading.Tasks;
-using Futures;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Abstractions;
 
-namespace Tests
+namespace DesignPatterns.Tests
 {
-    public class Tests
+    public class FutureActions : TestBase
     {
-        Action myAction;
+        readonly Action myAction;
 
-        [SetUp]
-        public void Setup()
-        {
-            myAction = new Action(() =>
-            {
-                Console.WriteLine("Running my action..."); 
-            });
-        }
-
-        [Test]
+        [Fact]
         public void ActionExists()
         {
-            Assert.IsNotNull(myAction);
+            Assert.NotNull(myAction);
             myAction();
         }
 
-        [Test]
+        [Fact]
         public Task<object> CanRunActionAsPromise()
         {
             ActionExists();
@@ -37,5 +28,8 @@ namespace Tests
             // .Bind<>(speaker => speaker.NextTalk());
             throw new NotImplementedException();
         }
+        
+        public FutureActions(ITestOutputHelper helper) :base(helper) =>
+            myAction = () => Console.WriteLine("Running my action...");
     }
 }

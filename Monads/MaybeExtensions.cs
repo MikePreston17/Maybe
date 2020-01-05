@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Maybe;
 
-namespace Shared.Maybe
+namespace DesignPatterns
 {
     public static class MaybeExtensions
     {
         public static Maybe<T> ToMaybe<T>(this T value) where T : class
             => value != null
-                ? global::Maybe.Maybe.Some(value)
+                ? global::DesignPatterns.Maybe.Some(value)
                 : Maybe<T>.None;
 
         public static Maybe<T> ToMaybe<T>(this T? nullable) where T : struct
             => nullable.HasValue
-                ? global::Maybe.Maybe.Some(nullable.Value)
+                ? global::DesignPatterns.Maybe.Some(nullable.Value)
                 : Maybe<T>.None;
 
         public static Maybe<string> NoneIfEmpty(this string text)
             => string.IsNullOrEmpty(text)
                 ? Maybe<string>.None
-                : global::Maybe.Maybe.Some(text);
+                : global::DesignPatterns.Maybe.Some(text);
 
         public static Maybe<T> FirstOrNone<T>(this IEnumerable<T> self) where T : class
             => self.FirstOrDefault()

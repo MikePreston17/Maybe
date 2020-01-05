@@ -6,6 +6,8 @@
     <Title>Maybe</Title>
     <Authors>Michael Preston</Authors>
     <LangVersion>7.3</LangVersion>
+    <AssemblyName>Monads</AssemblyName>
+    <RootNamespace>Monads</RootNamespace>
   </PropertyGroup>
 
 </Project>

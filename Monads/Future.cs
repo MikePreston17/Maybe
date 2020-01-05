@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Futures
+namespace DesignPatterns
 {
     /// <summary>
     /// Source: https://mikhail.io/2018/07/monads-explained-in-csharp-again/

@@ -1,10 +1,8 @@
-using Futures;
-
-namespace Tests
+namespace DesignPatterns.Tests
 {
     public class SpeakerRepository {
         
-      public Future< Speaker> LoadSpeaker() =>  new Future<Speaker>(new Speaker());
+      public Future<Speaker> LoadSpeaker() =>  new Future<Speaker>(new Speaker());
     }
     
     public class Conference

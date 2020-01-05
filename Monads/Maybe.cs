@@ -2,47 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Maybe
+namespace DesignPatterns
 {
     //Source from: https://www.pluralsight.com/tech-blog/maybe
-    public struct Maybe<T>
+    public struct Maybe<A>
     {
-        private readonly IEnumerable<T> values;
+        readonly IEnumerable<A> values;
 
         public bool HasValue => values != null && values.Any();
 
-        public static implicit operator Maybe<T>(T value) => Some(value);
+        public static implicit operator Maybe<A>(A value) => Some(value);
 
-        public static Maybe<T> Some(T value) => value != null
-                ? new Maybe<T>(new[] { value })
-                : throw new ArgumentNullException($"Cannot add a null value for a reference type like {typeof(T).Name}");
+        public static Maybe<A> Some(A value) => value != null
+                ? new Maybe<A>(new[] { value })
+                : throw new ArgumentNullException($"Cannot add a null value for a reference type like {typeof(A).Name}");
 
-        public static Maybe<T> None => new Maybe<T>(new T[0]);
+        public static Maybe<A> None => new Maybe<A>(new A[0]);
 
-        public T Value => HasValue
+        public A Value => HasValue
                 ? values.Single()
-                : throw new Exception($"Maybe of type {typeof(T).Name} does not have a value");
+                : throw new Exception($"Maybe of type {typeof(A).Name} does not have a value");
 
         /// Source from: https://mikhail.io/2016/01/monads-explained-in-csharp/
         /// https://mikhail.io/2018/07/monads-explained-in-csharp-again/
-        public Maybe(T value) => values = Enumerable.Repeat(value, 1);
+        public Maybe(A value) => values = Enumerable.Repeat(value, 1);
 
-        private Maybe(IEnumerable<T> values) => this.values = values;
+        Maybe(IEnumerable<A> values) => this.values = values;
 
-        public T ValueOrDefault(T @default) => HasValue
+        public A ValueOrDefault(A @default) => HasValue
                 ? values.Single()
                 : @default;
 
-        public T ValueOrThrow(Exception ex) => HasValue
+        public A ValueOrThrow(Exception ex) => HasValue
                 ? Value
                 : throw ex;
 
         //Handle the cases where there is some value or there is none:
-        public U Case<U>(Func<T, U> some, Func<U> none) => HasValue
+        public U Case<U>(Func<A, U> some, Func<U> none) => HasValue
                 ? some(Value)
                 : none();
 
-        public Maybe<T> Case(Action<T> some, Action none)
+        public Maybe<A> Case(Action<A> some, Action none)
         {
             if (HasValue)
                 some(Value);
@@ -61,7 +61,7 @@ namespace Maybe
         ///     repository.Save(account);
         /// });
         /// </summary>
-        public Maybe<T> IfSome(Action<T> some)
+        public Maybe<A> IfSome(Action<A> some)
         {
             if (HasValue)
                 some(Value);
@@ -80,10 +80,10 @@ namespace Maybe
         ///     .Bind(lo => repo.GetOrder(lo.Id))
         ///     .Bind(o => o.Shipper);
         /// </summary>
-        public Maybe<U> Bind<U>(Func<T, Maybe<U>> func) where U : class
+        public Maybe<B> Bind<B>(Func<A, Maybe<B>> func) where B : class
         {
             var value = values.SingleOrDefault();
-            return value != null ? func(value) : new Maybe<U>();
+            return value != null ? func(value) : new Maybe<B>();
         }
 
         /// <summary>
@@ -91,11 +91,11 @@ namespace Maybe
         /// Maybe<string> maybeFirstName = maybeAccount.Map(account => account.FirstName);
         /// Maybe<IList<string>> emails = maybeAccount.Map(account => repository.GetEmailAddresses(account));
         /// </summary>
-        public Maybe<U> Map<U>(Func<T, Maybe<U>> map) => HasValue
+        public Maybe<U> Map<U>(Func<A, Maybe<U>> map) => HasValue
                 ? map(Value)
                 : Maybe<U>.None;
 
-        public Maybe<U> Map<U>(Func<T, U> map) => HasValue
+        public Maybe<U> Map<U>(Func<A, U> map) => HasValue
                 ? Maybe.Some(map(Value))
                 : Maybe<U>.None;
     }
