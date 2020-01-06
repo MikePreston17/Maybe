@@ -8,18 +8,18 @@ namespace DesignPatterns
     {
         public static Maybe<T> ToMaybe<T>(this T value) where T : class
             => value != null
-                ? global::DesignPatterns.Maybe.Some(value)
+                ? Maybe.Some(value)
                 : Maybe<T>.None;
 
         public static Maybe<T> ToMaybe<T>(this T? nullable) where T : struct
             => nullable.HasValue
-                ? global::DesignPatterns.Maybe.Some(nullable.Value)
+                ? Maybe.Some(nullable.Value)
                 : Maybe<T>.None;
 
         public static Maybe<string> NoneIfEmpty(this string text)
             => string.IsNullOrEmpty(text)
                 ? Maybe<string>.None
-                : global::DesignPatterns.Maybe.Some(text);
+                : Maybe.Some(text);
 
         public static Maybe<T> FirstOrNone<T>(this IEnumerable<T> self) where T : class
             => self.FirstOrDefault()
@@ -36,20 +36,20 @@ namespace DesignPatterns
         ///
         /// The Return extension method combines both of them in one call.
         /// </summary>
-        public static Maybe<T> Return<T>(this T value) where T : class
-            => value != null
+        public static Maybe<T> Return<T>(this T value) where T : class => 
+            value != null
                 ? new Maybe<T>(value)
                 : Maybe<T>.None;
 
         /// <summary>
-        /// Unwraps the specified Maybe<typeparamref name="TResult"/>.
+        /// Unwraps the specified Maybe<typeparamref name="A"/>.
         /// </summary>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <typeparam name="A">The type of the result.</typeparam>
         /// <param name="maybe">The maybe.</param>
         /// <returns></returns>
-        public static Maybe<TResult> Unwrap<TResult>(this Maybe<Maybe<TResult>> maybe)
-            => maybe.HasValue
-                ? new Maybe<TResult>(maybe.Value.Value)
+        public static Maybe<A> Unwrap<A>(this Maybe<Maybe<A>> maybe) =>
+            maybe.HasValue
+                ? new Maybe<A>(maybe.Value.Value)
                 : throw new ArgumentNullException(nameof(maybe));
     }
 }

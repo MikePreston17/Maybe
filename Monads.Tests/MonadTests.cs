@@ -14,15 +14,20 @@ namespace DesignPatterns.Tests
             Print(Car.With(car => { car.Year = 2018; }));
         }
 
-        // [Fact]
-        // public void CanModifyWithFunction()
-        // {
-        //     Print(Car);
-        //     Print(Car.With(car => car.Year > 2000));
-        // }
+        [Fact]
+        public void CanModifyWithFunction()
+        {
+            Print(Car);
+            Print(Car.With(car => { car.Make = "Civic"; }));
+        }
 
         public MonadTests(ITestOutputHelper output) : base(output)
         {
+        }
+
+        public override void ObeysMonadicLaw()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

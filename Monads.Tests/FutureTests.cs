@@ -31,5 +31,10 @@ namespace DesignPatterns.Tests
         
         public FutureActions(ITestOutputHelper helper) :base(helper) =>
             myAction = () => Console.WriteLine("Running my action...");
+
+        public override void ObeysMonadicLaw()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

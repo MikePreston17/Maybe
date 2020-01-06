@@ -38,7 +38,7 @@ namespace DesignPatterns
                 : throw ex;
 
         //Handle the cases where there is some value or there is none:
-        public U Case<U>(Func<A, U> some, Func<U> none) => HasValue
+        public B Case<B>(Func<A, B> some, Func<B> none) => HasValue
                 ? some(Value)
                 : none();
 
@@ -65,7 +65,7 @@ namespace DesignPatterns
         {
             if (HasValue)
                 some(Value);
-
+            
             return this;
         }
 
@@ -87,21 +87,22 @@ namespace DesignPatterns
         }
 
         /// <summary>
-        /// Map a maybe to another type:
+        /// Map
         /// Maybe<string> maybeFirstName = maybeAccount.Map(account => account.FirstName);
         /// Maybe<IList<string>> emails = maybeAccount.Map(account => repository.GetEmailAddresses(account));
         /// </summary>
-        public Maybe<U> Map<U>(Func<A, Maybe<U>> map) => HasValue
+        public Maybe<B> Map<B>(Func<A, Maybe<B>> map) => HasValue
                 ? map(Value)
-                : Maybe<U>.None;
+                : Maybe<B>.None;
 
-        public Maybe<U> Map<U>(Func<A, U> map) => HasValue
+        public Maybe<B> Map<B>(Func<A, B> map) => HasValue
                 ? Maybe.Some(map(Value))
-                : Maybe<U>.None;
+                : Maybe<B>.None;
     }
 
     public static class Maybe
     {
-        public static Maybe<T> Some<T>(T value) => Maybe<T>.Some(value);
+        public static Maybe<A> Some<A>(A value) => 
+            Maybe<A>.Some(value);
     }
 }
