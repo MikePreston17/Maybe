@@ -1,7 +1,8 @@
+using DesignPatterns.Tests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace DesignPatterns.Tests
+namespace Monads.Tests
 {
     public class MonadTests : TestBase
     {
@@ -10,24 +11,20 @@ namespace DesignPatterns.Tests
         [Fact]
         public void CanModifyWithAction()
         {
-            Print(Car);
-            Print(Car.With(car => { car.Year = 2018; }));
+            Print(Car.ToString());
+            Print(Car.With(car => { car.Year = 2018; }).ToString());
         }
 
         [Fact]
         public void CanModifyWithFunction()
         {
-            Print(Car);
-            Print(Car.With(car => { car.Make = "Civic"; }));
+            Print(Car.ToString());
+            Print(Car.With(car => { car.Make = "Civic"; }).ToString());
         }
 
-        public MonadTests(ITestOutputHelper output) : base(output)
+        public MonadTests(ITestOutputHelper output) 
+            : base(output)
         {
-        }
-
-        public override void ObeysMonadicLaw()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace DesignPatterns
     }
 
     /// The Identity Monad -  All it does is hold values and bind functors (Lifters)
-    public abstract partial class Monad<A> : Base
+    public abstract partial class Monad<A>
     {
         public A Value { get; }
         public Monad(A value) => Value = value;

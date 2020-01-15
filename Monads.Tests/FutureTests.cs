@@ -1,9 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using DesignPatterns.Tests;
+using DesignPatterns.Tests;
+using DesignPatterns.Tests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace DesignPatterns.Tests
+namespace Monads.Tests
 {
     public class FutureActions : TestBase
     {
@@ -31,10 +34,5 @@ namespace DesignPatterns.Tests
         
         public FutureActions(ITestOutputHelper helper) :base(helper) =>
             myAction = () => Console.WriteLine("Running my action...");
-
-        public override void ObeysMonadicLaw()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
